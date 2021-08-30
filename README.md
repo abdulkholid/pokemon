@@ -4,7 +4,7 @@ Thanks to..
 - Graphql PokeAPI - https://graphql-pokeapi.graphcdn.app/
 - Emotion CSS in JS - https://emotion.sh
 
-# Best Viewport - iPhone 6/7/8 ( 375 x 667 )
+# Best View- iPhone 6/7/8 ( 375 x 667 )
 
 
 # How it works?
