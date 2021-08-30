@@ -10,7 +10,7 @@ Thanks to..
 - Click on a Pokemon you liked the most
 - Pop-up detail about clicked pokemon will appear
 - Click "Catch this Pokemon"
-- If you lucky, you will got the Pokemon.
+- If you are lucky, you will get the Pokemon.
 
 
 Happy Catching! Gotcha!
