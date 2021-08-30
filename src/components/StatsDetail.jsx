@@ -1,7 +1,6 @@
 import styled from '@emotion/styled'
 
 const StatsDetail = ({ stats, types }) => {
-    console.log(types);
     const StatsDetail = styled.div`
         padding: 40px 20px 20px;
         background-color: #F8F1EB;
@@ -48,8 +47,8 @@ const StatsDetail = ({ stats, types }) => {
             <div className="types">
                 Types:
                 {
-                    types.map((type) => (
-                        <span>{type.type.name}</span>
+                    types.map((type, index) => (
+                        <span key={ index }>{type.type.name}</span>
                     ))
                 }
             </div>

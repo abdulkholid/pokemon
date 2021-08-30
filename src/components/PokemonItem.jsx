@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { result } from 'lodash';
 
 const PokemonItemStyle = styled.div`
     border-radius: 0px 40px 0px 0px;
@@ -66,23 +67,34 @@ const pad = (number, length) => {
     return str;
 }
 
-const PokemonItem = ({ id, image, name }) => {
+const PokemonItem = ({ id, image, name, isMyPokemon }) => {
+    const history = useHistory();
+    const localData = localStorage.getItem('my_pokemons');
+    const localDataArray = localData ? JSON.parse(localData) : [];
+    const name_alias = isMyPokemon ? localDataArray.find(result => result.id === id).name : '';
+
+    const removePokemon = (event) => {
+        event.preventDefault();
+        const pokemon_id = id;
+        const localData = localStorage.getItem('my_pokemons');
+        const localDataArray = localData ? JSON.parse(localData) : [];
+        const excluded_result = localDataArray.filter(result => result.id !==  pokemon_id);
+        localStorage.setItem('my_pokemons', JSON.stringify(excluded_result));
+        history.push(`/deleted/${ id }`);
+    }
+
     return (
         <PokemonItemStyle>
             <img className="pokemon-image" src={ image } alt="CHARIZARD"/>
 
             <div className="detail">
-                <Link to={ `/${name}/detail` } className="name">{ name }</Link>
+                {
+                    !isMyPokemon ? <Link to={ `/${name}/detail` } className="name">{ name }</Link> : <div className="name">{ name_alias }</div>
+                }
                 <div className="attributes">
-                    <span>Pokemon ID: #{ pad(id, 4) }</span>
-                    {/* <span>
-                        <img className="icon" src={ IconAttack } alt="Icon Attack" width="12" />
-                        { attack }
-                    </span>
-                    <span>
-                        <img className="icon" src={ IconHitPoint } alt="Icon Attack" width="13" />
-                        { hitPoint }
-                    </span> */}
+                    {
+                        !isMyPokemon ? <span>Pokemon ID: #{ pad(id, 4) }</span> : <span onClick={removePokemon}>Remove</span>
+                    }
                 </div>
             </div>
         </PokemonItemStyle>

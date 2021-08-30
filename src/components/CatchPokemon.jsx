@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import IconCatchPokemon from '../images/icon-catch-pokemon.svg';
 import IconCatchSuccess from '../images/icon-catch-success.svg';
 import IconCatchFailed from '../images/icon-catch-failed.svg';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 
 const CatchPokemonStyle = styled.nav`
@@ -85,6 +85,17 @@ const CatchResultModalStyle = styled.div`
         }
     }
 
+    .input-text {
+        width: 250px;
+        font-size: 16px;
+        padding: 15px 10px;
+        margin-bottom: 20px;
+        text-align: center;
+        outline: none !important;
+        border-radius: 20px;
+        border: 2px solid rgba(0, 0, 0, 0.2);
+    }
+
     .btn {
         display: block;
         width: 250px;
@@ -106,7 +117,9 @@ const CatchResultModalStyle = styled.div`
 `;
 
 const CatchPokemon = ({ id, name, isMyPokemon }) => {
+    const history = useHistory();
     const [CatchPokemonResult, setCatchPokemonResult] = useState({ success: false, openModal: false });
+    const [newName, setNewName] = useState(null);
 
     function probability(n) {
         return Math.random() < n;
@@ -114,15 +127,24 @@ const CatchPokemon = ({ id, name, isMyPokemon }) => {
 
     const doCatchPokemon = () => {
         if (probability(0.5)) {
-            // const localData = localStorage.getItem('my_pokemons');
-            // const my_pokemons = localData ? JSON.parse(localData) : [];
-            // my_pokemons.push(id);    
-            // localStorage.setItem('my_pokemons', JSON.stringify(my_pokemons));
-
             setCatchPokemonResult({ openModal: true, success: true });
         } else {
             setCatchPokemonResult({ openModal: true, success: false });
         }
+    };
+
+    const onSubmit = (event) => {
+        event.preventDefault();
+        const data = { id: id, name: newName };
+        const localData = localStorage.getItem('my_pokemons');
+        const my_pokemons = localData ? JSON.parse(localData) : [];
+        my_pokemons.push(data);    
+        localStorage.setItem('my_pokemons', JSON.stringify(my_pokemons));
+        history.push('/my-pokemon');
+    };
+    const onChange = (event) => {
+        const name = event.target.value;
+        setNewName(name);
     };
 
     return (
@@ -134,14 +156,17 @@ const CatchPokemon = ({ id, name, isMyPokemon }) => {
                 </button>
             </CatchPokemonStyle>
 
-            <CatchResultModalStyle style={{ display: CatchPokemonResult.openModal  && CatchPokemonResult.success ? 'flex' : '' }}>
+            <CatchResultModalStyle style={{ display: CatchPokemonResult.openModal && CatchPokemonResult.success ? 'flex' : '' }}>
                 <img src={ IconCatchSuccess } alt="Icon Catch Success" width="100" />
                 <div className="text">
                     <b>Yeay!</b> You successfully catch
                     <div className="name">{ name }</div>
                 </div>
 
-                <Link to="/my-pokemon" className="btn">See your pokemon</Link>
+                <form onSubmit={ onSubmit }>
+                    <input type="text" className="input-text" onChange={ onChange } placeholder="Please give a new name"  required/>
+                    <button className="btn" type="submit">Submit New Name</button>
+                </form>
             </CatchResultModalStyle>
 
             <CatchResultModalStyle style={{ display: CatchPokemonResult.openModal && !CatchPokemonResult.success ? 'flex' : '' }}>

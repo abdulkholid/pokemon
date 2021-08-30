@@ -17,6 +17,7 @@ const Detail = () => {
 
     const localData = localStorage.getItem('my_pokemons');
     const my_pokemons = localData ? JSON.parse(localData) : [];
+    const my_pokemons_id = my_pokemons.map((result) => { return result.id });
 
     const POKE_GQL_API = 'https://graphql-pokeapi.graphcdn.app/';
     useEffect(() => {
@@ -32,7 +33,7 @@ const Detail = () => {
 
     useEffect(() => {
         setMyPokemon(false);
-        if (pokemon && my_pokemons.includes(pokemon.id)) {
+        if (pokemon && my_pokemons_id.includes(pokemon.id)) {
             setMyPokemon(true);
         }   
     }, [pokemon]);

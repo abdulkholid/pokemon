@@ -20,7 +20,8 @@ const Pokemon = ({ myPokemonOnly }) => {
 
     const localData = localStorage.getItem('my_pokemons');
     const localDataArray = localData ? JSON.parse(localData) : [];
-    const [myPokemon, setMyPokemon] = useState(localDataArray);
+    const myPokemon = localDataArray;
+    const myPokemonId = myPokemon.map((item, key) => { return item.id });
 
     const POKE_GQL_API = 'https://graphql-pokeapi.graphcdn.app/';
     useEffect(async () => {
@@ -37,7 +38,7 @@ const Pokemon = ({ myPokemonOnly }) => {
             .then((response) => { 
                 if (myPokemonOnly) {
                     const results = response.data.data.pokemons.results;
-                    const filtered = results.filter(result => myPokemon.includes(result.id));
+                    const filtered = results.filter(result => myPokemonId.includes(result.id));
                     setPokemons(filtered);
                 } else {
                     setPokemons(response.data.data.pokemons.results);
@@ -50,7 +51,7 @@ const Pokemon = ({ myPokemonOnly }) => {
             <div className="row">
                 {
                     pokemons.map((pokemon) => (
-                        <PokemonItem key={pokemon.id} id={pokemon.id} image={ pokemon.dreamworld } name={ pokemon.name }/>
+                        <PokemonItem key={pokemon.id} id={pokemon.id} image={ pokemon.dreamworld } name={ pokemon.name } isMyPokemon={ myPokemonOnly ? true : false } />
                     ))
                 }
             </div>
