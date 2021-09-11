@@ -9,7 +9,7 @@ Thanks to..
 
 # How it works?
 - You will be shown list of pokemon on the first page
-- Click on a Pokemon you liked the most
+- Click on a Pokemon Name you liked the most
 - Pop-up detail about clicked pokemon will appear
 - Click "Catch this Pokemon"
 - If you are lucky, you will get the Pokemon.
