@@ -1,64 +1,5 @@
-import { Link, useHistory } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { result } from 'lodash';
-
-const PokemonItemStyle = styled.div`
-    border-radius: 0px 40px 0px 0px;
-    width: 100%;
-    padding: 30px 0px;
-    background-color: #fff;
-    position: relative;
-    text-align: center;
-
-    .pokemon-image {
-        width: 90%;
-        height: auto;
-    }
-
-    .detail {
-        position: absolute;
-        right: -10px;
-        bottom: 15px;
-        width: 130px;
-        background-color: #FA4246;
-        color: #fff;
-        padding: 10px;
-        font-size: 10px;
-        text-align: left;
-
-        .name {
-            text-decoration: none;
-            font-size: 15px;
-            color: #000;
-            text-transform: uppercase;
-            display: block;
-        }
-
-        .attributes {
-            span {
-                display: inline-block;
-                position: relative;
-                margin-right: 15px;
-
-                &:not(:last-child):before {
-                    content: "";
-                    position: absolute;
-                    width: 5px;
-                    height: 5px;
-                    border-radius: 50%;
-                    background-color: #FDF600;
-                    right: -10px;
-                    top: 7px;
-                }
-
-                img.icon {
-                    vertical-align: -3px;
-                    margin-right: 3px;
-                }
-            }
-        }
-    }
-`;
+import { useHistory } from 'react-router-dom';
+import { PokemonCard, PokemonImage, PokemonDetail, PokemonName, PokemonAttribute } from './PokemonItem.elements';
 
 const pad = (number, length) => {
     var str = '' + number;
@@ -84,20 +25,22 @@ const PokemonItem = ({ id, image, name, isMyPokemon }) => {
     }
 
     return (
-        <PokemonItemStyle>
-            <img className="pokemon-image" src={ image } alt="CHARIZARD"/>
-
-            <div className="detail">
+        <PokemonCard>
+            <PokemonImage src={ image } alt={ name }/>
+            <PokemonDetail>
                 {
-                    !isMyPokemon ? <Link to={ `/${name}/detail` } className="name">{ name }</Link> : <div className="name">{ name_alias }</div>
+                    !isMyPokemon ? 
+                        <PokemonName to={ `/${name}/detail` } className="name">{ name }</PokemonName> 
+                    : 
+                        <PokemonName to={ `/${name}/detail` } className="name">{ name_alias }</PokemonName> 
                 }
-                <div className="attributes">
+                <PokemonAttribute>
                     {
                         !isMyPokemon ? <span>Pokemon ID: #{ pad(id, 4) }</span> : <span onClick={removePokemon}>Remove</span>
                     }
-                </div>
-            </div>
-        </PokemonItemStyle>
+                </PokemonAttribute>
+            </PokemonDetail>
+        </PokemonCard>
     )
 }
 

@@ -20,3 +20,11 @@ body {
 .page {
     padding-bottom: 130px;
 }
+
+@media(min-width: 767px) {
+    body {
+        background-size: 500px auto;
+        background-position: bottom;
+        background-color: #011e4f;
+    }
+}

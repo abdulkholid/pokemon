@@ -8,6 +8,7 @@ import StatsDetail from '../components/StatsDetail';
 import TopBarDetail from '../components/TopBarDetail';
 import { GET_POKEMON } from '../graphql/GetPokemon';
 import CatchPokemon from '../components/CatchPokemon';
+import Container from '../components/Container';
 
 
 const Detail = () => {
@@ -40,11 +41,13 @@ const Detail = () => {
 
     return (
         <div className="page">
-            { pokemon ? <CatchPokemon id={ pokemon.id } name={ pokemon.name } isMyPokemon={myPokemon}/> : 'loading data'}
-            <TopBarDetail></TopBarDetail>
-            { pokemon ? <ImageDetail id={ pokemon.id } name={ pokemon.name } attack={ pokemon.stats[1].base_stat || 0 } hitPoint={ pokemon.stats[0].base_stat || 0 } image={pokemon.sprites.front_default} isMyPokemon={myPokemon}></ImageDetail> : 'loading data'}
-            { pokemon ? <StatsDetail stats={ pokemon.stats } types={ pokemon.types }></StatsDetail> : 'loading data' }
-            { pokemon ? <MovesDetail moves={ pokemon.moves }></MovesDetail> : 'loading data'}
+            <Container>
+                { pokemon ? <CatchPokemon id={ pokemon.id } name={ pokemon.name } isMyPokemon={myPokemon}/> : 'loading data'}
+                <TopBarDetail></TopBarDetail>
+                { pokemon ? <ImageDetail id={ pokemon.id } name={ pokemon.name } attack={ pokemon.stats[1].base_stat || 0 } hitPoint={ pokemon.stats[0].base_stat || 0 } image={pokemon.sprites.front_default} isMyPokemon={myPokemon}></ImageDetail> : 'loading data'}
+                { pokemon ? <StatsDetail stats={ pokemon.stats } types={ pokemon.types }></StatsDetail> : 'loading data' }
+                { pokemon ? <MovesDetail moves={ pokemon.moves }></MovesDetail> : 'loading data'}
+            </Container>
         </div>
     )
 }
